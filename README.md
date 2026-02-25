@@ -48,7 +48,7 @@ flowchart BT
   %% cloudflare.tf
   time_sleep.dns_ready-- content -->cloudflare_dns_record.xps13_a
   time_sleep.dns_ready-- content -->cloudflare_dns_record.xps13_aaaa
-  terraform_data.dns_ready-- replace_triggered_by -->time_sleep.dns_ready
+  terraform_data.dns_ready-- triggers_replace -->time_sleep.dns_ready
   cloudflare_dns_record.xps13_a-- addresses -->data.tailscale_device.xps13
   cloudflare_dns_record.xps13_aaaa-- addresses -->data.tailscale_device.xps13
 

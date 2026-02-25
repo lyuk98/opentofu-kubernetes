@@ -32,12 +32,10 @@ resource "time_sleep" "dns_ready" {
 
 # Check for DNS propagation
 resource "terraform_data" "dns_ready" {
-  lifecycle {
-    replace_triggered_by = [
-      time_sleep.dns_ready.triggers.ipv4,
-      time_sleep.dns_ready.triggers.ipv6
-    ]
-  }
+  triggers_replace = [
+    time_sleep.dns_ready.triggers.ipv4,
+    time_sleep.dns_ready.triggers.ipv6
+  ]
 
   provisioner "local-exec" {
     command = "${path.module}/scripts/check_dns.py"
