@@ -1,6 +1,6 @@
 # OpenTofu configurations
 
-This repository contains the OpenTofu configuration for my personal Kubernetes cluster.
+This repository contains OpenTofu configuration for my personal Kubernetes cluster.
 
 ## Providers used
 
@@ -120,7 +120,7 @@ flowchart BT
 
 OpenTofu is required due to the usage of [state and plan encryption](https://opentofu.org/docs/language/state/encryption/); using Terraform without it may work, but it has not been tested. Python 3 is also required for local script execution.
 
-If the system uses [Nix](https://nixos.org/), running the following command starts an interactive shell with required packages:
+If the system uses [Nix](https://nixos.org/), running the following command, at the root directory of the cloned project, starts an interactive shell with required packages:
 
 ```sh
 nix-shell --pure
@@ -156,7 +156,7 @@ Accepted input variables are defined at [`variables.tf`](./variables.tf). The fo
 
 ### Backend configuration
 
-During initialisation, the name of the bucket for storing the state needs to be provided. It can be done interactively or by manually providing the configuration.
+During initialisation, the name of the bucket for storing the state needs to be provided. It can be done interactively, or by manually providing the configuration.
 
 ```sh
 # Initialise backend interactively
@@ -168,7 +168,7 @@ tofu init -backend-config="bucket=<bucket-name>"
 
 ### `plan` and `apply`
 
-When the backend is ready, run the following the apply the configuration:
+When the backend is ready, run the following to apply the configuration:
 
 ```sh
 tofu plan -out=tfplan
