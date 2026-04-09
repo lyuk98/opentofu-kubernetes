@@ -15,14 +15,14 @@ variable "cloudflare_zone_id" {
 variable "talos_version" {
   type        = string
   description = "Version of Talos Linux"
-  default     = "v1.12.4"
+  default     = "v1.12.6"
   nullable    = false
 }
 
 variable "kubernetes_version" {
   type        = string
   description = "Version of Kubernetes to use with Talos Linux"
-  default     = "v1.35.1"
+  default     = "v1.35.3"
   nullable    = false
 }
 
