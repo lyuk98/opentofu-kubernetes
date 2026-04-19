@@ -1,16 +1,5 @@
-provider "talos" {}
-
 # Generate machine secrets for the cluster
 resource "talos_machine_secrets" "kubernetes" {}
-
-# Check only if nodes are running
-data "talos_cluster_health" "kubernetes" {
-  depends_on = [helm_release.tailscale_operator]
-
-  client_configuration = talos_machine_secrets.kubernetes.client_configuration
-  control_plane_nodes  = local.node_addresses.ipv4
-  endpoints            = local.node_addresses.ipv4
-}
 
 # Generate client configuration for the Talos Linux cluster
 data "talos_client_configuration" "kubernetes" {

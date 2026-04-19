@@ -171,3 +171,17 @@ data "talos_image_factory_urls" "xps13" {
   architecture  = "amd64"
   platform      = "metal"
 }
+
+# OAuth client for node (XPS 13)
+resource "tailscale_oauth_client" "xps13" {
+  scopes      = ["auth_keys"]
+  description = local.hostnames.control_plane.xps13
+  tags        = ["tag:k8s-control-plane", "tag:k8s-worker"]
+}
+
+# Tailnet device information (XPS 13)
+data "tailscale_device" "xps13" {
+  depends_on = [talos_machine_configuration_apply.xps13]
+  hostname   = local.hostnames.control_plane.xps13
+  wait_for   = "10m"
+}

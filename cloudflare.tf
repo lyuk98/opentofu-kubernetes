@@ -1,13 +1,15 @@
-provider "cloudflare" {}
-
 # Cloudflare Zone information
 data "cloudflare_zone" "default" {
   zone_id = var.cloudflare_zone_id
 }
 
 locals {
+  # Tailnet domain
+  tailnet_subdomain = "tailnet"
+  tailnet_domain    = "${local.tailnet_subdomain}.${data.cloudflare_zone.default.name}"
+
   # Subdomain of control plane nodes
-  cluster_subdomain = "kubernetes.clusters.tailnet"
+  cluster_subdomain = "kubernetes.clusters.${local.tailnet_subdomain}"
 
   # IP addresses of control plane nodes
   node_addresses = {

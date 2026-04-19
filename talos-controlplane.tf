@@ -28,6 +28,15 @@ locals {
       }
     }
 
+    # Disable kube-proxy
+    disable_proxy = {
+      cluster = {
+        proxy = {
+          disabled = true
+        }
+      }
+    }
+
     # Allow running workload on control plane nodes
     run_workload = {
       cluster = {

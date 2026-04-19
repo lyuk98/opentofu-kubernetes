@@ -48,6 +48,14 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 3.1"
     }
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 3.0.1"
+    }
+    kustomization = {
+      source  = "kbst/kustomization"
+      version = "~> 0.9.7"
+    }
     local = {
       source  = "hashicorp/local"
       version = "~> 2.7"
@@ -71,11 +79,49 @@ terraform {
   }
 }
 
+# Cloudflare resource management
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
+
+# Helm package manager
+provider "helm" {
+  kubernetes = {
+    host = local.cluster_endpoint
+
+    client_certificate     = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.client_certificate)
+    client_key             = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.client_key)
+    cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.ca_certificate)
+  }
+}
+
+# Kubernetes resource management
+provider "kubernetes" {
+  host = local.cluster_endpoint
+
+  client_certificate     = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.client_certificate)
+  client_key             = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.client_key)
+  cluster_ca_certificate = base64decode(talos_cluster_kubeconfig.kubernetes.kubernetes_client_configuration.ca_certificate)
+}
+
+# Kustomization provider
+provider "kustomization" {
+  kubeconfig_raw = talos_cluster_kubeconfig.kubernetes.kubeconfig_raw
+}
+
 # Local resource management
 provider "local" {}
 
 # Random value generation
 provider "random" {}
+
+# Tailscale provider
+provider "tailscale" {
+  scopes = ["devices:core", "auth_keys", "oauth_keys", "services"]
+}
+
+# Talos Linux
+provider "talos" {}
 
 # Management of time-based resources
 provider "time" {}
